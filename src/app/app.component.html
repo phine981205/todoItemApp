@@ -1,0 +1,35 @@
+<div class="container">
+  <h2>Todo List</h2>
+
+  <!-- Create Todo -->
+  <form (submit)="createTodo(newTodo.value); newTodo.value=''">
+    <input type="text" #newTodo placeholder="Enter a new task" required />
+    <button type="submit" >Add</button>
+  </form>
+
+  <!-- Todo List -->
+  <ul>
+    <li *ngFor="let todo of todos" class="todo-item">
+      
+      <!-- Edit Mode -->
+      <div *ngIf="editingTodo?.id === todo.id" class="todo-content">
+        <input type="text" [(ngModel)]="updatedTitle" />
+        <div class="todo-buttons">
+          <button (click)="saveTodo()">Save</button>
+          <button (click)="cancelEditing()">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Display Mode -->
+      <div *ngIf="editingTodo?.id !== todo.id" class="todo-content">
+        <span [class.completed]="todo.isCompleted">{{ todo.title }}</span>
+        <div class="todo-buttons">
+          <button *ngIf="!todo.isCompleted" (click)="markComplete(todo.id)">Complete</button>
+          <button *ngIf="!todo.isCompleted" (click)="startEditing(todo)">Edit</button>
+          <button (click)="deleteTodo(todo.id)">Delete</button>
+        </div>
+      </div>
+
+    </li>
+  </ul>
+</div>
